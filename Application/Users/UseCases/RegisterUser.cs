@@ -30,17 +30,17 @@ namespace Application.Users.UseCases
                     Message = "User already exists"
                 };
             }
+            var refreshToken = tokenProvider.GenerateRefreshToken();
             user = new Domain.Entities.User
             {
                 Email = request.user.Email,
                 PasswordHash = userManager.HashPasswordAsync(request.user.Password),
                 Username = request.user.Username,
                 Phone = request.user.Phone,
-                Role =  "USER"
             };
+            user.RefreshTokens.Add(refreshToken);
             var createdUser=  await userManager.InsertUserAsync(user);
-            var refreshToken =  tokenProvider.GenerateRefreshToken();
-            request.context.Response.Cookies.Append("refresh",
+            request.context.Response.Cookies.Append("refreshToken",
                 refreshToken.token, new CookieOptions
                 {
                     HttpOnly = true,

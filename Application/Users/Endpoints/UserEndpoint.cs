@@ -48,6 +48,30 @@ namespace Application.Users.Endpoints
                     result.Message
                 });
             });
+
+            Route.MapGet("refresh-token/{UserId}" ,async (
+                [FromRoute] string UserId ,HttpContext context,
+                [FromServices] GetRefreshToken Handler) =>
+            {
+                var request  = new GetRefreshToken.Request(UserId ,context);
+                var result = await Handler.Handle(request);
+                if (!result.IsSuccess)
+                {
+                    return Results.BadRequest(result.Message);
+                }
+                return Results.Ok(result.Data);
+            });
+
+
+            Route.MapGet("logout", async (HttpContext context) =>
+            {
+                context.Response.Cookies.Delete("refreshToken");
+                return Results.Ok("Logout Successful");
+            });
+            Route.MapGet("forget-password", async () =>
+            {
+
+            });
             return Routes;
         }
     }

@@ -27,9 +27,16 @@ namespace Application.Users.UseCases
                     Message =  "User not found"
                 };
             }
+            if (user.RefreshTokens.Any(rt=>rt.IsActive))
+            {
+                user.RefreshTokens.Single(rt => rt.IsActive).RevokedOn = DateTime.Now;
+            }
+
             var accessToken = tokenProvider.GenerateAccessToken(user);
             var RefreshToken = tokenProvider.GenerateRefreshToken();
-            request.context.Response.Cookies.Append("refresh", RefreshToken.token
+            user.RefreshTokens.Add(RefreshToken);
+            await userManager.SaveChanges();
+            request.context.Response.Cookies.Append("refreshToken", RefreshToken.token
                 , new CookieOptions
                 {
                     HttpOnly = true,

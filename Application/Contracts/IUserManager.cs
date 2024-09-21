@@ -9,5 +9,7 @@ namespace Application.Contracts
         public Task<User> InsertUserAsync(User user);
         public bool CheckPasswordAsync(string password, string hashedPassword);
         public string HashPasswordAsync(string password);
+        public Task<User?> GetUserByIdAsync(string Id);
+        public Task SaveChanges();
     }
 }

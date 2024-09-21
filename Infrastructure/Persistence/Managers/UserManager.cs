@@ -1,11 +1,6 @@
 ﻿using Application.Contracts;
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Infrastructure.Persistence.Managers
 {
@@ -35,6 +30,14 @@ namespace Infrastructure.Persistence.Managers
             await context.Users.AddAsync(user);
             await context.SaveChangesAsync();
             return user;
+        }
+        public async Task<User?> GetUserByIdAsync(string Id)
+        {
+            return await context.Users.FindAsync(Id);
+        }
+        public async Task SaveChanges()
+        {
+            await context.SaveChangesAsync();
         }
     }
 }

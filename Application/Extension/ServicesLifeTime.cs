@@ -13,6 +13,7 @@ namespace Application.Extension
         {
             Services.AddScoped<LoginUser>();
             Services.AddScoped<RegisterUser>();
+            Services.AddScoped<GetRefreshToken>();
             return Services;
 
         }
