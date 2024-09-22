@@ -1,5 +1,6 @@
 ﻿using Application.Contracts;
 using Domain.Utilties;
+using Hangfire;
 using Infrastructure.Persistence;
 using Infrastructure.Persistence.Managers;
 using Infrastructure.Services;
